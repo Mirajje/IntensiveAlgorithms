@@ -11,28 +11,31 @@
 class Solution {
 public:
     ListNode* insertionSortList(ListNode* head) {
+        auto new_head = new ListNode();
         auto pos = head;
-
-        while (pos->next)
+        while (pos)
         {
-            auto cur = pos;
-            int min = pos->val;
-            auto min_el = pos;
-            
-            while (cur)
+            auto cur = new_head;
+            bool flag = false;
+            while (cur->next)
             {
-                if (cur->val < min)
+                if (pos->val <= cur->next->val)
                 {
-                    min = cur->val;
-                    min_el = cur;
+                    auto tmp = cur->next;
+                    cur->next = new ListNode(pos->val);
+                    cur->next->next = tmp;
+                    flag = true;
+                    break;
                 }
+
                 cur = cur->next;
             }
+            if (!flag)
+                cur->next = new ListNode(pos->val);
 
-            std::swap(min_el->val, pos->val);
             pos = pos->next;
         }
 
-        return head;
+        return new_head->next;        
     }
 };
